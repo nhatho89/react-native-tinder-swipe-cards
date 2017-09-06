@@ -205,7 +205,8 @@ export default class SwipeCards extends Component {
           if (hasMovedRight) {
             cancelled = this.props.handleYup(this.state.card);
           } else if (hasMovedLeft) {
-            cancelled = this.props.handleNope(this.state.card);
+            // cancelled = this.props.handleNope(this.state.card);
+            this._goToPrevCard();
           } else if (hasMovedUp && this.props.hasMaybeAction) {
             cancelled = this.props.handleMaybe(this.state.card);
           } else {
@@ -220,22 +221,24 @@ export default class SwipeCards extends Component {
 
           this.props.cardRemoved(currentIndex[this.guid]);
 
-          if (this.props.smoothTransition) {
-            this._advanceState();
-          } else {
-            this.cardAnimation = Animated.decay(this.state.pan, {
-              velocity: { x: velocity, y: vy },
-              deceleration: 0.98
-            });
-            this.cardAnimation.start(status => {
-              if (status.finished) this._advanceState();
-              else this._resetState();
+          if (!hasMovedLeft) {
+            if (this.props.smoothTransition) {
+              this._advanceState();
+            } else {
+              this.cardAnimation = Animated.decay(this.state.pan, {
+                velocity: { x: velocity, y: vy },
+                deceleration: 0.98
+              });
+              this.cardAnimation.start(status => {
+                if (status.finished) this._advanceState();
+                else this._resetState();
 
-              this.cardAnimation = null;
-            }
+                this.cardAnimation = null;
+              }
             );
+            }
           }
-
+          
         } else {
           this._resetPan();
         }
