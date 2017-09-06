@@ -205,7 +205,7 @@ export default class SwipeCards extends Component {
           if (hasMovedRight) {
             cancelled = this.props.handleYup(this.state.card);
           } else if (hasMovedLeft) {
-            // cancelled = this.props.handleNope(this.state.card);
+            cancelled = this.props.handleNope(this.state.card);
             this._goToPrevCard();
           } else if (hasMovedUp && this.props.hasMaybeAction) {
             cancelled = this.props.handleMaybe(this.state.card);
@@ -238,7 +238,7 @@ export default class SwipeCards extends Component {
             );
             }
           }
-          
+
         } else {
           this._resetPan();
         }
